@@ -1,0 +1,11 @@
+@()(implicit request: RequestHeader)
+
+@import views.html.helper.CSRF
+
+@main("CSRF test problem") {
+    <form action="" method="post" role="main">
+        @CSRF.formField
+
+        <button type="submit">Submit</button>
+    </form>
+}
