@@ -1,3 +1,4 @@
+import controllers.CSRFController
 import org.specs2.mutable._
 import org.specs2.runner._
 import org.junit.runner._
@@ -13,18 +14,15 @@ import play.api.test.Helpers._
 @RunWith(classOf[JUnitRunner])
 class ApplicationSpec extends Specification {
 
-  "Application" should {
-
-    "send 404 on a bad request" in new WithApplication{
-      route(FakeRequest(GET, "/boum")) must beNone
+  "CSRFController" should {
+    "succeed when skipping CSRF check" in new WithApplication {
+      val request = FakeRequest(POST, "/").withHeaders("Csrf-Token" -> "nocheck")
+      val result = CSRFController.post()(request)
     }
 
-    "render the index page" in new WithApplication{
-      val home = route(FakeRequest(GET, "/")).get
-
-      status(home) must equalTo(OK)
-      contentType(home) must beSome.which(_ == "text/html")
-      contentAsString(home) must contain ("Your new application is ready.")
+    "definitely succeed if we explicitly set CSRFAddToken as well" in new WithApplication {
+      val request = FakeRequest(POST, "/2").withHeaders("Csrf-Token" -> "nocheck")
+      val result = CSRFController.post2()(request)
     }
   }
 }

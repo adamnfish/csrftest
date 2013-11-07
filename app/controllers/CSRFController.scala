@@ -18,4 +18,13 @@ object CSRFController extends Controller {
       Ok(views.html.form())
     }
   }
+
+  def post2 =
+    CSRFAddToken {
+      CSRFCheck {
+        Action { implicit request =>
+          Ok(views.html.form())
+        }
+      }
+    }
 }
