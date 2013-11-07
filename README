@@ -1,5 +1,0 @@
-CSRF tests issue test case
-==========================
-
-This is a minimal implementation of the problems implementing CSRF protection
-with controller tests.
